@@ -1,3 +1,4 @@
+--- Deployed on TEST 
 USE [TX_HUB_Topics]
 GO
 
