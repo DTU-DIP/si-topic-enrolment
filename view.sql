@@ -1,4 +1,3 @@
---- Deployed on PREPROD 
 USE [TX_HUB_Topics]
 GO
 
