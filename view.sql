@@ -1,4 +1,9 @@
-SELECT
+USE [TX_HUB_Topics]
+GO
+
+create or alter view [enrolment].[enrolment_01_00] as
+
+SELECT 
     [study_number],
     [programme_offer_date] AS [enrolment_offer_date],
     [programme_offer_location] AS [enrolment_offer_location],
@@ -42,6 +47,25 @@ SELECT
     [disenrolment_reason_code],
     [disenrolment_reason_en],
     [disenrolment_reason_da],
+    cast(CASE WHEN enrolment_type_code = 'vacant_seat_enrolment' THEN 1
+		 WHEN form_of_enrolment_code IN (5700, 5100) THEN 1
+		 ELSE 0
+	END as bit) AS [open_university],
+    cast(CASE 
+	WHEN level_of_education_code  = 'level_8' 
+	   THEN 1 
+	   ELSE 0 
+	END as bit) as [phd],
+    cast(CASE 
+	WHEN [legal_basis] = 'ordinary education system' 
+	   THEN 1 
+	   ELSE 0 
+	END as bit) as [ordinary],
+    cast(CASE 
+	WHEN enrolment_type_code = 'admission_course_enrolment' 
+	   THEN 1 
+	   ELSE 0 
+        END as bit) as [admission_course],
     [legacy_id1],
     [legacy_id2],
     [legacy_id3],
@@ -65,7 +89,7 @@ FROM [TX_HUB_Topics].[programme_enrolment].[programme_enrolment_01_00]
 
 UNION ALL
 
-SELECT
+SELECT 
     [study_number],
     [single_subject_element_offer_date] AS [enrolment_offer_date],
     [single_subject_element_offer_location] AS [enrolment_offer_location],
@@ -109,6 +133,21 @@ SELECT
     [disenrolment_reason_code],
     [disenrolment_reason_en],
     [disenrolment_reason_da],
+    cast(CASE WHEN enrolment_type_code = 'vacant_seat_enrolment' THEN 1
+		 WHEN form_of_enrolment_code IN (5700, 5100) THEN 1
+		 ELSE 0
+	END as bit) AS [open_university],
+    cast(CASE 
+	WHEN level_of_education_code  = 'level_8' 
+	   THEN 1 
+	   ELSE 0 
+	END as bit) as [phd],
+    cast(0 as bit) as [ordinary],
+    cast(CASE 
+	WHEN enrolment_type_code = 'admission_course_enrolment' 
+	   THEN 1 
+	   ELSE 0 
+        END as bit) as [admission_course],
     [legacy_id1],
     [legacy_id2],
     [legacy_id3],
